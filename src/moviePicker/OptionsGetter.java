@@ -1,3 +1,5 @@
+package moviePicker;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -44,6 +46,7 @@ public class OptionsGetter {
 
     public Integer scanOption() throws NumberFormatException{
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Wybrana opcja: ");
         String opt = scanner.nextLine();
         Integer optionNumber = Integer.parseInt(opt);
         return optionNumber;

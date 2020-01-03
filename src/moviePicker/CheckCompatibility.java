@@ -1,4 +1,7 @@
+package moviePicker;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CheckCompatibility {
 
@@ -14,6 +17,10 @@ public class CheckCompatibility {
         return scores;
     }
     public ArrayList<Integer> getBestScores() {
+        if(checkHowManyBest()) {
+            System.out.println("Dobranych filmów było więcej niż trzy. Aby uprościć wybór ograniczymy ich ilość do trzech.");
+            this.bestScores = random3Best();
+        }
         return bestScores;
     }
 
@@ -43,7 +50,7 @@ public class CheckCompatibility {
 
     }
 
-    public boolean checkYear(String year, Integer option) {
+    private boolean checkYear(String year, Integer option) {
         Integer yearNumber = Integer.parseInt(year);
         if(option.equals(1) && yearNumber<=2000)
                 return true;
@@ -53,32 +60,31 @@ public class CheckCompatibility {
             return true;
         return false;
     }
-
     private boolean checkOption(String characteristic, Integer option) {
         Integer characteristicNumber = Integer.parseInt(characteristic);
-        if(option.equals(1) && characteristicNumber.equals(1))
+        if(option.equals(1) && characteristicNumber == 1)
                 return true;
-        if (option.equals(2) && characteristicNumber.equals(0))
+        if (option.equals(2) && characteristicNumber == 0)
                 return true;
         if (option.equals(3))
             return true;
         return false;
     }
-    public boolean checkAnimationType(String animationType, Integer option) {
+    private boolean checkAnimationType(String animationType, Integer option) {
         Integer animationTypeNumber = Integer.parseInt(animationType);
-        if(option.equals(1) && animationTypeNumber.equals(2))
+        if(option.equals(1) && animationTypeNumber == 2)
             return true;
-        if (option.equals(2) && animationTypeNumber.equals(3))
+        if (option.equals(2) && animationTypeNumber == 3)
             return true;
         if (option.equals(3))
             return true;
         return false;
     }
-    public boolean checkPart(String part, Integer option) {
+    private boolean checkPart(String part, Integer option) {
         Integer partNumber = Integer.parseInt(part);
-        if(option.equals(1) && partNumber.equals(1))
+        if(option.equals(1) && partNumber == 1)
             return true;
-        if (option.equals(2) && !partNumber.equals(1))
+        if (option.equals(2) && !(partNumber == 1))
             return true;
         if (option.equals(3))
             return true;
@@ -135,5 +141,35 @@ public class CheckCompatibility {
         if(bestScores.size()==0)
             System.out.println("Nie udało się nam znaleźć filmu dla ciebie i bardzo nam przykro z tego powodu :(");
         return bestScores;
+    }
+
+    public boolean checkHowManyBest () {
+        if(this.bestScores.size()>3)
+            return true;
+        return false;
+    }
+
+    public ArrayList<Integer> random3Best () {
+        int bestScoresSize = this.bestScores.size();
+        ArrayList<Integer> best3Movies = new ArrayList();
+        Random random = new Random();
+        for(int i = 0; i<3; i++) {
+            Integer randomIndex = random.nextInt(bestScoresSize);
+            if(checkRandom(best3Movies, randomIndex)) {
+                best3Movies.add(randomIndex);
+            }
+        }
+        return best3Movies;
+    }
+
+    public boolean checkRandom (ArrayList<Integer> indexes, Integer randomIndex) {
+        boolean randomBool = true;
+        for (Integer pomIndex:indexes) {
+            if(pomIndex.equals(randomIndex))
+                randomBool = false;
+            if(pomIndex == randomIndex)
+                randomBool = false;
+        }
+        return randomBool;
     }
 }
